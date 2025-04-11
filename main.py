@@ -1,16 +1,28 @@
 from flask import Flask, render_template
-import pandas
+import pandas as pd
 
-app = Flask("__name__")
+app = Flask(__name__)
 
+# Collect the data from the file , skip first 17 rows , to find headers for the columns
+stations = pd.read_csv("data_small/stations.txt", skiprows=17, header=0)
+
+# Select only 2 columns to be shown
+stations = stations[["STAID", "STANAME                                 "]]
+
+# Start first page , display collected data in html format on the main page
 @app.route("/")
 def home():
-    return render_template("home.html")
+    print(stations.head())
+    return render_template("home.html", data=stations.to_html())
 
 @app.route("/api/v1/<station>/<date>")
 def about(station, date):
-    df = pandas.read_csv("")
-    return render_template("about.html")
+    filename = "data_small/TG_STAID" + str(station).zfill(6) + ".txt"
+    df = pd.read_csv(filename, skiprows=20, parse_dates=["    DATE"])
+    temperature = df.loc[df['    DATE'] == date]['   TG'].sqveeze() / 10
+    return {"station": station,
+            "date": date,
+            "temperature": temperature}
 
-
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)

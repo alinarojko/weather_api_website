@@ -2,21 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello HOME</title>
+    <title>Weather Data API</title>
 </head>
 <body>
-<nav>
-    <a href="/about/">About</a>
-    <a href="/contact-us/">Contact us</a>
-    <a href="Store">Store</a>
-    </nav>
     <h1>Weather Data API </h1>
-    <h2> </h2>
     <p>URL format: http://127.0.0.1:5000/api/v1/station/date</p>
     <p>URL Example: http://127.0.0.1:5000/api/v1/10/19881025</p>
-    <img src="{{url_for('static', filename='cat.png')}}" style="width:500px; height:500px">
-    <br>
-    <br>
-    <a href="https://perfectpetinsurance.co.uk/cat-insurance/"> Cat Insurance website </a>
+    <p>{{ data|safe }}</p>
 </body>
 </html>
